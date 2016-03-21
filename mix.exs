@@ -3,7 +3,7 @@ defmodule Exygen.Mixfile do
 
   def project do
     [app: :exygen,
-     version: "0.0.1",
+     version: "0.0.1-dev",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
