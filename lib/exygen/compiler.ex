@@ -28,7 +28,8 @@ defmodule Exygen.Compiler do
     |> Stream.transform(%{last: nil}, &consolidate_tokens/2)
   end
 
-  defp do_tokenize(""), do: nil
+  defp do_tokenize(:eof), do: nil
+  defp do_tokenize(""), do: {:eof, :eof}
   defp do_tokenize("\r\n" <> rest), do: {:rn, rest}
   defp do_tokenize("\n" <> rest), do: {:n, rest}
   defp do_tokenize(string) do
