@@ -4,11 +4,11 @@ defmodule Exygen.Mixfile do
   def project do
     [app: :exygen,
      version: "0.0.1-dev",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: aliases,
-     deps: deps]
+     aliases: aliases(),
+     deps: deps()]
   end
 
   def aliases do
@@ -21,7 +21,13 @@ defmodule Exygen.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    System.version()
+    |> Version.match?(">= 1.4.0")
+    |> if do
+      [extra_applications: [:logger]]
+    else
+      [applications: [:logger]]
+    end
   end
 
   # Dependencies can be Hex packages:
@@ -35,11 +41,11 @@ defmodule Exygen.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.11.4", only: :dev},
-      {:earmark, "~> 0.2.1", only: :dev},
-      {:credo, "~> 0.3.7", only: :dev},
-      {:inch_ex, "~> 0.5.1", only: :dev},
-      {:dialyxir, "~> 0.3.3", only: :dev}
+      {:ex_doc, "~> 0.14", only: :dev},
+      {:earmark, "~> 1.1", only: :dev},
+      {:credo, "~> 0.6", only: :dev},
+      {:inch_ex, "~> 0.5", only: :dev},
+      {:dialyxir, "~> 0.4", only: :dev},
     ]
   end
 end
