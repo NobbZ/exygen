@@ -28,6 +28,8 @@ defmodule Exygen.Compiler do
     |> Enum.into([]) |> IO.inspect
     |> Stream.transform(%{last: nil}, &consolidate_tokens/2)
     |> Enum.into([]) |> IO.inspect
+    |> Stream.transform([], &extract_blocks/2)
+    |> Enum.into([]) |> IO.inspect
   end
 
   defp do_tokenize(:eof), do: nil
@@ -57,6 +59,20 @@ defmodule Exygen.Compiler do
   end
   defp consolidate_tokens("@", state = %{}), do: {[], %{state | last: "@"}}
   defp consolidate_tokens(curr, state = %{}), do: {[curr], state}
+
+  defp extract_blocks(:continue, acc = [last|_]) when last in @newline, do: IO.inspect {[], [:continue|acc]}
+  defp extract_blocks(curr, acc = [last|_]) when last in @newline do
+    block = acc
+      |> Stream.filter(&(&1 != :continue))
+      |> Stream.map(fn
+        :rn -> "\r\n"
+        :n -> "\n"
+        w -> w
+      end)
+      |> Enum.reverse
+    {[block], [curr]}
+  end
+  defp extract_blocks(curr, acc), do: IO.inspect {[], [curr|acc]}
 
   defp parse_doc(tokens, _args) do
     tokens
