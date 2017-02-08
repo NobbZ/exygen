@@ -6,13 +6,15 @@ defmodule Exygen.Compiler do
   def __on_definition__(env, kind, _name, args, _guards, _body) when kind in [:def, :defmacro] do
     module = env.module
     case Module.get_attribute(module, :doc) do
-      doc when is_binary(doc) ->
+      {line, doc} when is_binary(doc) ->
         doc
         |> parse_doc(args)
-        |> put_doc(env)
+        |> put_doc(env, line)
 
         :ok
-      doc when doc in [nil, false] ->
+      {_n, false} ->
+        :ok
+      nil ->
         :ok
     end
   end
@@ -27,5 +29,5 @@ defmodule Exygen.Compiler do
 
   defp parse_lines(_lines, _args, _docinfo), do: nil
 
-  defp put_doc(doc, env), do: Module.put_attribute(env.module, :doc, {env.line, doc})
+  defp put_doc(doc, env, linum), do: Module.put_attribute(env.module, :doc, {linum, doc})
 end
