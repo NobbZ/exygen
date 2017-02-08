@@ -60,10 +60,6 @@ defmodule Exygen.Compiler do
 
   defp parse_doc(tokens, _args) do
     tokens
-    |> Enum.into([])
-    |> IO.inspect
-
-    tokens
   end
 
   # defp put_doc(doc, env, linum), do: Module.put_attribute(env.module, :doc, {linum, doc})
