@@ -25,7 +25,9 @@ defmodule Exygen.Compiler do
   defp tokenize(doc) do
     doc
     |> Stream.unfold(&do_tokenize/1)
+    |> Enum.into([]) |> IO.inspect
     |> Stream.transform(%{last: nil}, &consolidate_tokens/2)
+    |> Enum.into([]) |> IO.inspect
   end
 
   defp do_tokenize(:eof), do: nil
