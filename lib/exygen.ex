@@ -30,7 +30,8 @@ defmodule FooBar do
   @moduledoc false
 
   @doc """
-  Test
+  @param list Barbaratz!
+    Rabatzer
   """
   def foo(list, atom \\ :a)
   def foo([], _), do: nil
