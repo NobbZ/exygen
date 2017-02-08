@@ -52,7 +52,7 @@ defmodule Exygen.Compiler do
     if curr |> String.trim |> Kernel.==("") do
       {[:continue, curr], %{state | last: nil}}
     else
-      {[last, curr], %{state | last: nil}}
+      {[:stop, curr], %{state | last: nil}}
     end
   end
   defp consolidate_tokens("@", state = %{}), do: {[], %{state | last: "@"}}
