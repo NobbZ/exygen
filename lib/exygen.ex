@@ -14,7 +14,7 @@ defmodule Exygen do
     is documented but not found in the list of parameters will cause an error
     during compilation. The arguments described are ordered the same way as in
     the function head. The defaults of an argument are also printed if applicable.
-  """
+  """ 
 
   defmacro __using__(_opts) do
     quote do
