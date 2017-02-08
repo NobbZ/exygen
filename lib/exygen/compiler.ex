@@ -48,7 +48,7 @@ defmodule Exygen.Compiler do
     do: {[curr], %{state | last: curr}}
   defp consolidate_tokens(curr, state = %{last: last}) when curr in @newline,
     do: {[last], %{state | last: curr}}
-  defp consolidate_tokens(curr, state = %{last: last}) when last in @newline do
+  defp consolidate_tokens(curr, state = %{last: last}) when last in @newline and is_binary(curr) do
     if curr |> String.trim |> Kernel.==("") do
       {[:continue, curr], %{state | last: nil}}
     else
